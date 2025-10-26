@@ -1,0 +1,448 @@
+\documentclass[12pt,a4paper]{article}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[margin=2.5cm,headheight=15pt]{geometry}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{listings}
+\usepackage{booktabs}
+
+% Header and Footer
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{AT25-41253}
+\rhead{SML - Assignment}
+\cfoot{\thepage}
+
+% Hyperlink setup
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+    citecolor=blue,
+}
+
+% Title formatting
+\title{
+    \textbf{AT25-41253: Statistical Machine Learning} \\
+    \Large{Tugas: Eksperimen Hyperparameter Tuning SVM} \\
+    \vspace{0.5cm}
+    \normalsize{Program Studi Sains Aktuaria} \\
+    \normalsize{Institut Teknologi Sumatera}
+}
+\author{Pengampu: Martin C.T. Manullang}
+\date{Diterbitkan: 26 Oktober 2025}
+
+\begin{document}
+
+\maketitle
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Informasi Penting]
+\textbf{Batas Waktu Pengumpulan:} Silakan cek website mata kuliah \\
+\textbf{Link Pengumpulan:} \url{https://mctm.web.id/course/at25-41253} \\
+\textbf{Mode Pengerjaan:} Individual (direkomendasikan untuk nilai lebih tinggi) atau Kelompok (maksimal 2 orang) \\
+\textbf{Yang Harus Dikumpulkan:} 
+\begin{itemize}
+    \item File Jupyter Notebook (.ipynb) - \textbf{harus sudah dijalankan sebelum dikumpulkan}
+    \item File PDF hasil export dari notebook (.pdf)
+\end{itemize}
+\end{tcolorbox}
+
+\section{Gambaran Umum}
+
+Tugas ini dirancang untuk membantu Anda mendapatkan pengalaman hands-on dalam melakukan hyperparameter tuning untuk Support Vector Machine (SVM) pada masalah regresi. Anda akan melakukan eksperimen dengan berbagai konfigurasi hyperparameter, menganalisis dampaknya terhadap performa model, dan memberikan insight dari perspektif aktuaria.
+
+\section{Tujuan Pembelajaran}
+
+Dengan menyelesaikan tugas ini, Anda akan mampu:
+\begin{itemize}
+    \item Memahami dampak berbagai hyperparameter SVM terhadap performa model
+    \item Merancang dan melaksanakan eksperimen hyperparameter tuning secara sistematis
+    \item Menganalisis dan menginterpretasikan metrik evaluasi model (R², MAE, RMSE, MAPE)
+    \item Menerapkan critical thinking untuk memilih model optimal dalam aplikasi aktuaria
+    \item Mendokumentasikan eksperimen machine learning secara profesional
+\end{itemize}
+
+\section{Terms of Reference}
+
+\subsection{Dataset}
+Gunakan Medical Insurance Cost Dataset yang telah disediakan di repository mata kuliah:
+\begin{itemize}
+    \item \texttt{medical\_insurance.csv} - Dataset utama
+    \item \texttt{train\_data.csv} dan \texttt{validation\_data.csv} - Data yang sudah di-split (jika tersedia)
+\end{itemize}
+
+\subsection{Deskripsi Tugas}
+
+Tugasmu adalah \textbf{meningkatkan performa dari baseline SVM model} yang telah didemonstrasikan dalam materi hands-on (\texttt{week10-2.ipynb}) dengan melakukan eksperimen hyperparameter tuning secara sistematis.
+
+\subsubsection{Performa Baseline (Referensi)}
+Model baseline dari sesi hands-on menggunakan:
+\begin{itemize}
+    \item Kernel: RBF
+    \item C: 1.0
+    \item Epsilon: 0.1
+    \item Gamma: 'scale'
+\end{itemize}
+
+Tujuanmu adalah mencapai \textbf{performa yang lebih baik} dari baseline ini melalui eksperimen yang cermat.
+
+\subsection{Eksperimen yang Harus Dilakukan}
+
+Anda harus melakukan dan mendokumentasikan eksperimen berikut:
+
+\subsubsection{Eksperimen 1: Perbandingan Kernel (20 poin)}
+\begin{itemize}
+    \item Test minimal \textbf{tiga kernel berbeda}: 'linear', 'rbf', 'poly'
+    \item Gunakan hyperparameter default atau nilai yang reasonable untuk setiap kernel
+    \item Bandingkan metrik performa antar kernel
+    \item Berikan analisis kernel mana yang bekerja paling baik dan \textbf{mengapa}
+\end{itemize}
+
+\subsubsection{Eksperimen 2: Hyperparameter Tuning (30 poin)}
+\begin{itemize}
+    \item Pilih kernel terbaik dari Eksperimen 1
+    \item Lakukan tuning sistematis untuk minimal \textbf{tiga hyperparameter}:
+    \begin{itemize}
+        \item C (Regularization parameter) - test minimal 4 nilai
+        \item epsilon (Epsilon-tube width) - test minimal 3 nilai
+        \item gamma (untuk kernel RBF/poly) - test minimal 4 nilai
+    \end{itemize}
+    \item Gunakan GridSearchCV atau RandomizedSearchCV
+    \item Dokumentasikan parameter grid yang digunakan
+    \item Laporkan best parameter yang ditemukan dan cross-validation scores
+\end{itemize}
+
+\subsubsection{Eksperimen 3: Evaluasi Model (20 poin)}
+\begin{itemize}
+    \item Train model final dengan best hyperparameter
+    \item Evaluasi menggunakan \textbf{semua} metrik berikut:
+    \begin{itemize}
+        \item R² Score (coefficient of determination)
+        \item MAE (Mean Absolute Error)
+        \item RMSE (Root Mean Squared Error)
+        \item MAPE (Mean Absolute Percentage Error)
+    \end{itemize}
+    \item Bandingkan dengan performa baseline model
+    \item Cek overfitting (bandingkan metrik training vs validation)
+\end{itemize}
+
+\subsubsection{Eksperimen 4: Visualisasi \& Analisis (15 poin)}
+\begin{itemize}
+    \item Buat minimal \textbf{tiga visualisasi}:
+    \begin{enumerate}
+        \item Scatter plot Actual vs Predicted
+        \item Residual plot
+        \item Chart perbandingan model (baseline vs tuned)
+    \end{enumerate}
+    \item Berikan interpretasi untuk setiap visualisasi
+\end{itemize}
+
+\subsection{Struktur Laporan}
+
+Buat Jupyter Notebook dengan struktur berikut (tulis dalam Markdown cells):
+
+\begin{enumerate}[label=\textbf{\arabic*.}]
+    \item \textbf{Judul dan Pendahuluan (5 poin)}
+    \begin{itemize}
+        \item Judul tugas, nama Anda, NIM
+        \item Penjelasan singkat tentang masalah yang dihadapi
+        \item Nyatakan tujuan eksperimenmu
+    \end{itemize}
+    
+    \item \textbf{Data Loading dan Preparation (5 poin)}
+    \begin{itemize}
+        \item Load dataset
+        \item Lakukan preprocessing yang diperlukan (encoding, scaling)
+        \item Split data jika belum di-split
+        \item \textit{Catatan: Anda boleh reuse preprocessing code, tapi jelaskan setiap langkah}
+    \end{itemize}
+    
+    \item \textbf{Eksperimen 1: Perbandingan Kernel}
+    \begin{itemize}
+        \item Code untuk testing berbagai kernel
+        \item Tabel hasil perbandingan kernel
+        \item Analisis dan interpretasi (dalam Markdown)
+    \end{itemize}
+    
+    \item \textbf{Eksperimen 2: Hyperparameter Tuning}
+    \begin{itemize}
+        \item Code untuk GridSearchCV/RandomizedSearchCV
+        \item Definisi parameter grid
+        \item Best parameter yang ditemukan
+        \item Hasil cross-validation
+        \item Analisis dampak parameter
+    \end{itemize}
+    
+    \item \textbf{Eksperimen 3: Evaluasi Model}
+    \begin{itemize}
+        \item Code training model final
+        \item Metrik evaluasi lengkap
+        \item Tabel perbandingan (baseline vs tuned)
+        \item Analisis overfitting
+    \end{itemize}
+    
+    \item \textbf{Eksperimen 4: Visualisasi \& Analisis}
+    \begin{itemize}
+        \item Semua plot yang diminta dengan label yang proper
+        \item Interpretasi dari setiap visualisasi
+    \end{itemize}
+    
+    \item \textbf{Insight Aktuarial (10 poin)}
+    \begin{itemize}
+        \item Diskusikan implikasi praktis untuk pricing asuransi
+        \item Bagaimana Anda akan menggunakan model ini di production?
+        \item Apa keterbatasannya?
+        \item Rekomendasi untuk deployment
+    \end{itemize}
+    
+    \item \textbf{Kesimpulan (5 poin)}
+    \begin{itemize}
+        \item Rangkum temuan utama
+        \item Nyatakan konfigurasi model terbaik
+        \item Persentase peningkatan dari baseline
+        \item Pelajaran yang didapat
+    \end{itemize}
+    
+    \item \textbf{Referensi dan Sitasi}
+    \begin{itemize}
+        \item Sitasi sumber eksternal yang digunakan
+        \item Jika menggunakan AI tools, berikan atribusi yang jelas
+        \item Sitasi dataset (sudah disediakan di materi kuliah)
+    \end{itemize}
+\end{enumerate}
+
+\section{Rubrik Penilaian}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}p{7cm}cp{6cm}@{}}
+\toprule
+\textbf{Komponen} & \textbf{Poin} & \textbf{Kriteria} \\ \midrule
+Eksperimen 1: Perbandingan Kernel & 20 & Kelengkapan, kedalaman analisis \\
+Eksperimen 2: Hyperparameter Tuning & 25 & Desain grid, best params, insight \\
+Eksperimen 3: Evaluasi Model & 15 & Metrik lengkap, perbandingan \\
+Eksperimen 4: Visualisasi & 15 & Kualitas, interpretasi \\
+Insight Aktuarial & 10 & Relevansi praktis, kedalaman \\
+Kualitas Laporan & 15 & Struktur, kejelasan, penggunaan markdown \\
+Kualitas Code & 10 & Readability, komentar, eksekusi \\
+\midrule
+\textbf{Bonus Individual} & +10 & Untuk pengerjaan individual \\
+\textbf{Total} & \textbf{110/100} & \\ \bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Catatan:} Pengerjaan individual mendapat bonus poin. Nilai akhir maksimal 100.
+
+\section{Persyaratan Teknis}
+
+\subsection{Persyaratan Code}
+\begin{itemize}
+    \item Gunakan Python 3.8+
+    \item Library yang diperlukan: pandas, numpy, scikit-learn, matplotlib, seaborn
+    \item Code harus diberi komentar dengan baik
+    \item Semua cell harus sudah dieksekusi sebelum dikumpulkan
+    \item Tidak ada error dalam notebook
+\end{itemize}
+
+\subsection{Persyaratan Markdown}
+\begin{itemize}
+    \item Gunakan heading yang proper (\texttt{\#}, \texttt{\#\#}, \texttt{\#\#\#})
+    \item Sertakan penjelasan di antara code cells
+    \item Gunakan bullet point dan numbered list dengan tepat
+    \item Format equation menggunakan LaTeX (jika diperlukan): \verb|$$R^2 = ...$$|
+    \item Sertakan tabel untuk perbandingan hasil
+\end{itemize}
+
+\subsection{Struktur Notebook}
+\begin{itemize}
+    \item Mulai dari \textbf{notebook kosong} (jangan copy seluruh hands-on notebook)
+    \item Tulis laporan dan eksperimenmu sendiri
+    \item Anda boleh reuse preprocessing code, tapi jelaskan
+    \item Fokus pada \textbf{eksperimenmu} dan \textbf{analisismu}
+\end{itemize}
+
+\section{Panduan Pengumpulan}
+
+\subsection{Konvensi Penamaan File}
+\begin{itemize}
+    \item Notebook: \texttt{SVM\_Assignment\_[NIM].ipynb} \\
+    Contoh: \texttt{SVM\_Assignment\_121450001.ipynb}
+    \item Untuk kelompok: \texttt{SVM\_Assignment\_[NIM1]\_[NIM2].ipynb} \\
+    Contoh: \texttt{SVM\_Assignment\_121450001\_121450002.ipynb}
+    \item PDF: Nama yang sama dengan extension .pdf
+\end{itemize}
+
+\subsection{Cara Generate PDF dari Notebook}
+\begin{enumerate}
+    \item \textbf{Jalankan semua cell} di notebook
+    \item Di Jupyter: File → Download as → PDF via LaTeX
+    \item Atau gunakan command line: \\
+    \texttt{jupyter nbconvert --to pdf notebook\_Anda.ipynb}
+    \item Atau di VS Code: Export → PDF
+\end{enumerate}
+
+\subsection{Yang Harus Dikumpulkan}
+\begin{enumerate}
+    \item File Jupyter Notebook (.ipynb) - \textbf{harus sudah dieksekusi penuh}
+    \item File PDF hasil export dari notebook (.pdf)
+    \item Kedua file harus memiliki konten yang identik
+\end{enumerate}
+
+\subsection{Platform Pengumpulan}
+Kumpulkan melalui website mata kuliah: \url{https://mctm.web.id/course/at25-41253}
+
+Cek deadline di website mata kuliah.
+
+\section{Integritas Akademik}
+
+\subsection{Penggunaan AI Tools}
+\begin{tcolorbox}[colback=yellow!10!white,colframe=orange!75!black,title=Kebijakan Penggunaan AI]
+\textbf{Anda BOLEH menggunakan AI tools} (ChatGPT, Copilot, dll.) untuk membantu pembelajaran, TAPI:
+
+\begin{itemize}
+    \item Anda \textbf{bertanggung jawab penuh} atas setiap baris code yang Anda kumpulkan
+    \item Anda harus \textbf{memahami} cara kerja code tersebut
+    \item Anda harus bisa \textbf{menjelaskan} code-mu jika ditanya
+    \item Berikan \textbf{atribusi yang jelas} di notebook-mu: \\
+    \textit{Contoh: "Code untuk hyperparameter tuning dibantu oleh ChatGPT"}
+    \item Jangan copy-paste tanpa memahami
+\end{itemize}
+
+\textbf{Ingat:} AI adalah alat untuk membantumu belajar, bukan menggantikan pembelajaran.
+\end{tcolorbox}
+
+\subsection{Kebijakan Kolaborasi}
+\begin{itemize}
+    \item Pengerjaan individual: Kerjakan semuanya sendiri (nilai lebih tinggi dengan bonus +10)
+    \item Pengerjaan kelompok: Kedua anggota harus berkontribusi setara
+    \item Jangan share code antar kelompok
+    \item Jangan copy dari submission tahun sebelumnya
+    \item Sitasi semua sumber eksternal yang digunakan
+\end{itemize}
+
+\subsection{Plagiarisme}
+Plagiarisme akan berakibat:
+\begin{itemize}
+    \item Nilai nol untuk tugas ini
+    \item Dilaporkan ke bagian akademik
+    \item Potensial gagal mata kuliah
+\end{itemize}
+
+\section{Tips untuk Sukses}
+
+\begin{enumerate}
+    \item \textbf{Mulai lebih awal!} Jangan tunggu sampai deadline
+    \item \textbf{Pahami baseline dulu} sebelum mencoba meningkatkannya
+    \item \textbf{Dokumentasi sambil jalan} - tulis penjelasan markdown sambil coding
+    \item \textbf{Test dengan grid kecil dulu} - GridSearchCV bisa lama
+    \item \textbf{Gunakan RandomizedSearchCV} jika GridSearchCV terlalu lambat
+    \item \textbf{Save pekerjaan secara berkala} - gunakan version control (git)
+    \item \textbf{Cek error} - pastikan semua cell berjalan tanpa error
+    \item \textbf{Tanya jika bingung} - gunakan office hours atau forum mata kuliah
+\end{enumerate}
+
+\section{Contoh Parameter Grid}
+
+Berikut beberapa saran (Anda tidak harus menggunakan nilai-nilai ini):
+
+\subsection{Untuk GridSearchCV (Comprehensive)}
+\begin{verbatim}
+param_grid = {
+    'C': [0.1, 1, 10, 100],
+    'epsilon': [0.01, 0.1, 0.5],
+    'gamma': ['scale', 'auto', 0.001, 0.01, 0.1]
+}
+# Total: 4 × 3 × 5 = 60 kombinasi
+\end{verbatim}
+
+\subsection{Untuk RandomizedSearchCV (Lebih Cepat)}
+\begin{verbatim}
+param_distributions = {
+    'C': [0.01, 0.1, 1, 10, 100, 1000],
+    'epsilon': [0.001, 0.01, 0.1, 0.5, 1.0],
+    'gamma': ['scale', 'auto', 0.0001, 0.001, 0.01, 0.1, 1.0],
+    'kernel': ['linear', 'rbf', 'poly']
+}
+# Sample 50 kombinasi random
+\end{verbatim}
+
+\section{Formula Metrik Evaluasi}
+
+Untuk referensimu:
+
+\begin{align}
+R^2 &= 1 - \frac{\sum_{i=1}^{n}(y_i - \hat{y}_i)^2}{\sum_{i=1}^{n}(y_i - \bar{y})^2} \\
+MAE &= \frac{1}{n}\sum_{i=1}^{n}|y_i - \hat{y}_i| \\
+RMSE &= \sqrt{\frac{1}{n}\sum_{i=1}^{n}(y_i - \hat{y}_i)^2} \\
+MAPE &= \frac{100\%}{n}\sum_{i=1}^{n}\left|\frac{y_i - \hat{y}_i}{y_i}\right|
+\end{align}
+
+Dimana:
+\begin{itemize}
+    \item $y_i$ = nilai aktual
+    \item $\hat{y}_i$ = nilai prediksi
+    \item $\bar{y}$ = mean dari nilai aktual
+    \item $n$ = jumlah sampel
+\end{itemize}
+
+\section{Sumber Referensi}
+
+\begin{itemize}
+    \item Materi kuliah: \texttt{week10-1.ipynb} dan \texttt{week10-2.ipynb}
+    \item Dokumentasi Scikit-learn: \url{https://scikit-learn.org/stable/}
+    \item Dokumentasi SVM: \url{https://scikit-learn.org/stable/modules/svm.html}
+    \item GridSearchCV: \url{https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html}
+    \item Website mata kuliah: \url{https://mctm.web.id/course/at25-41253}
+\end{itemize}
+
+\section{Pertanyaan yang Sering Diajukan (FAQ)}
+
+\textbf{Q: Bolehkah saya menggunakan dataset yang berbeda?} \\
+A: Tidak, Anda harus menggunakan Medical Insurance Cost Dataset yang disediakan.
+
+\textbf{Q: Bolehkah saya skip bagian data preprocessing?} \\
+A: Anda harus menyertakan preprocessing, tapi boleh reuse code dari materi hands-on dengan penjelasan yang proper.
+
+\textbf{Q: Berapa lama GridSearchCV akan berjalan?} \\
+A: Tergantung ukuran grid-mu. Mulai dengan grid kecil (10-20 kombinasi) untuk test. Grid penuh mungkin butuh 30-60 menit.
+
+\textbf{Q: Bagaimana jika model tuned saya performanya lebih buruk dari baseline?} \\
+A: Dokumentasikan temuan ini! Jelaskan mengapa hal ini bisa terjadi dan apa yang Anda pelajari.
+
+\textbf{Q: Bolehkah saya menambahkan eksperimen ekstra di luar yang diminta?} \\
+A: Ya! Pekerjaan ekstra yang berkualitas bisa mendapat bonus poin (maksimal +5).
+
+\textbf{Q: Bagaimana jika saya kerja kelompok tapi ingin kredit individual?} \\
+A: Kumpulkan terpisah. Setiap orang harus punya notebook sendiri dengan eksperimen sendiri.
+
+\textbf{Q: Bagaimana cara sitasi AI tools?} \\
+A: Tambahkan section di akhir: "AI Tools yang Digunakan: ChatGPT untuk saran code di Bagian X. Semua code sudah direview dan dipahami sebelum dimasukkan."
+
+\section{Kontak}
+
+Untuk pertanyaan tentang tugas ini:
+\begin{itemize}
+    \item Cek website mata kuliah: \url{https://mctm.web.id/course/at25-41253}
+    \item Kirim chat di group kelas
+    \item Atau kirimkan email ke: martin.manullang@if.itera.ac.id
+    \item Dosen mungkin akan meminta bantuan asisten untuk menjawab pertanyaan umum
+\end{itemize}
+
+\vspace{1cm}
+
+\begin{center}
+\textbf{Selamat mengerjakan eksperimen!} \\
+\textit{Ingat: Tujuannya adalah belajar, bukan hanya mendapat nilai tertinggi.} \\
+\textit{Pemahaman lebih penting daripada performa.}
+\end{center}
+
+\end{document}
