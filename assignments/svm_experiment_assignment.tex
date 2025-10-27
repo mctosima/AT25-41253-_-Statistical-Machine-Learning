@@ -48,7 +48,7 @@
 \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Informasi Penting]
 \textbf{Batas Waktu Pengumpulan:} Silakan cek website mata kuliah \\
 \textbf{Link Pengumpulan:} \url{https://mctm.web.id/course/at25-41253} \\
-\textbf{Mode Pengerjaan:} Individual (direkomendasikan untuk nilai lebih tinggi) atau Kelompok (maksimal 2 orang) \\
+\textbf{Mode Pengerjaan:} Individual (direkomendasikan untuk nilai lebih tinggi) atau Kelompok (maksimal 3 orang) \\
 \textbf{Yang Harus Dikumpulkan:} 
 \begin{itemize}
     \item File Jupyter Notebook (.ipynb) - \textbf{harus sudah dijalankan sebelum dikumpulkan}
@@ -80,6 +80,15 @@ Gunakan Medical Insurance Cost Dataset yang telah disediakan di repository mata 
     \item \texttt{train\_data.csv} dan \texttt{validation\_data.csv} - Data yang sudah di-split (jika tersedia)
 \end{itemize}
 
+\textbf{Opsi Penggunaan Subset Data:}
+\begin{itemize}
+    \item Anda \textbf{boleh menggunakan 50\%-100\%} dari dataset untuk training
+    \item Gunakan subset data (50\%-70\%) untuk eksperimen awal agar training lebih cepat
+    \item \textbf{Wajib menggunakan 100\%} data untuk model final yang dilaporkan
+    \item Pastikan menggunakan \textbf{stratified sampling} agar distribusi data tetap seimbang
+    \item Di notebook, set variable \texttt{DATA\_PERCENTAGE} sesuai kebutuhan
+\end{itemize}
+
 \subsection{Deskripsi Tugas}
 
 Tugasmu adalah \textbf{meningkatkan performa dari baseline SVM model} yang telah didemonstrasikan dalam materi hands-on (\texttt{week10-2.ipynb}) dengan melakukan eksperimen hyperparameter tuning secara sistematis.
@@ -101,7 +110,7 @@ Anda harus melakukan dan mendokumentasikan eksperimen berikut:
 
 \subsubsection{Eksperimen 1: Perbandingan Kernel (20 poin)}
 \begin{itemize}
-    \item Test minimal \textbf{tiga kernel berbeda}: 'linear', 'rbf', 'poly'
+    \item Test minimal \textbf{dua kernel berbeda}: pilih dari 'linear', 'rbf', atau 'poly'
     \item Gunakan hyperparameter default atau nilai yang reasonable untuk setiap kernel
     \item Bandingkan metrik performa antar kernel
     \item Berikan analisis kernel mana yang bekerja paling baik dan \textbf{mengapa}
@@ -116,7 +125,8 @@ Anda harus melakukan dan mendokumentasikan eksperimen berikut:
         \item epsilon (Epsilon-tube width) - test minimal 3 nilai
         \item gamma (untuk kernel RBF/poly) - test minimal 4 nilai
     \end{itemize}
-    \item Gunakan GridSearchCV atau RandomizedSearchCV
+    \item Coba minimal \textbf{3 kombinasi} dan maksimal \textbf{6 kombinasi} hyperparameter (di luar Eksperimen 1)
+    \item Gunakan \textbf{GridSearchCV} untuk tuning
     \item Dokumentasikan parameter grid yang digunakan
     \item Laporkan best parameter yang ditemukan dan cross-validation scores
 \end{itemize}
@@ -154,6 +164,7 @@ Buat Jupyter Notebook dengan struktur berikut (tulis dalam Markdown cells):
     \item \textbf{Judul dan Pendahuluan (5 poin)}
     \begin{itemize}
         \item Judul tugas, nama Anda, NIM
+        \item \textbf{Jika pengerjaan kelompok:} Tuliskan nama dan NIM semua anggota, serta \textbf{deskripsi kontribusi masing-masing anggota} (siapa mengerjakan apa)
         \item Penjelasan singkat tentang masalah yang dihadapi
         \item Nyatakan tujuan eksperimenmu
     \end{itemize}
@@ -161,6 +172,7 @@ Buat Jupyter Notebook dengan struktur berikut (tulis dalam Markdown cells):
     \item \textbf{Data Loading dan Preparation (5 poin)}
     \begin{itemize}
         \item Load dataset
+        \item Set \texttt{DATA\_PERCENTAGE} (gunakan 50\%-100\% sesuai kebutuhan eksperimen)
         \item Lakukan preprocessing yang diperlukan (encoding, scaling)
         \item Split data jika belum di-split
         \item \textit{Catatan: Anda boleh reuse preprocessing code, tapi jelaskan setiap langkah}
@@ -175,8 +187,8 @@ Buat Jupyter Notebook dengan struktur berikut (tulis dalam Markdown cells):
     
     \item \textbf{Eksperimen 2: Hyperparameter Tuning}
     \begin{itemize}
-        \item Code untuk GridSearchCV/RandomizedSearchCV
-        \item Definisi parameter grid
+        \item Code untuk GridSearchCV
+        \item Definisi parameter grid (minimal 3 kombinasi, maksimal 6 kombinasi)
         \item Best parameter yang ditemukan
         \item Hasil cross-validation
         \item Analisis dampak parameter
@@ -246,11 +258,11 @@ Kualitas Code & 10 & Readability, komentar, eksekusi \\
 
 \subsection{Persyaratan Code}
 \begin{itemize}
-    \item Gunakan Python 3.8+
     \item Library yang diperlukan: pandas, numpy, scikit-learn, matplotlib, seaborn
     \item Code harus diberi komentar dengan baik
     \item Semua cell harus sudah dieksekusi sebelum dikumpulkan
     \item Tidak ada error dalam notebook
+    \item Gunakan \texttt{DATA\_PERCENTAGE} untuk mengatur persentase data (50\%-100\%)
 \end{itemize}
 
 \subsection{Persyaratan Markdown}
@@ -276,8 +288,8 @@ Kualitas Code & 10 & Readability, komentar, eksekusi \\
 \begin{itemize}
     \item Notebook: \texttt{SVM\_Assignment\_[NIM].ipynb} \\
     Contoh: \texttt{SVM\_Assignment\_121450001.ipynb}
-    \item Untuk kelompok: \texttt{SVM\_Assignment\_[NIM1]\_[NIM2].ipynb} \\
-    Contoh: \texttt{SVM\_Assignment\_121450001\_121450002.ipynb}
+    \item Untuk kelompok: \texttt{SVM\_Assignment\_[NIM1]\_[NIM2].ipynb} (untuk 2 orang) atau \texttt{SVM\_Assignment\_[NIM1]\_[NIM2]\_[NIM3].ipynb} (untuk 3 orang) \\
+    Contoh: \texttt{SVM\_Assignment\_121450001\_121450002\_121450003.ipynb}
     \item PDF: Nama yang sama dengan extension .pdf
 \end{itemize}
 
@@ -323,7 +335,8 @@ Cek deadline di website mata kuliah.
 \subsection{Kebijakan Kolaborasi}
 \begin{itemize}
     \item Pengerjaan individual: Kerjakan semuanya sendiri (nilai lebih tinggi dengan bonus +10)
-    \item Pengerjaan kelompok: Kedua anggota harus berkontribusi setara
+    \item Pengerjaan kelompok: Maksimal 3 orang. Semua anggota harus berkontribusi setara
+    \item \textbf{Wajib mencantumkan kontribusi setiap anggota} di bagian pendahuluan notebook
     \item Jangan share code antar kelompok
     \item Jangan copy dari submission tahun sebelumnya
     \item Sitasi semua sumber eksternal yang digunakan
@@ -343,8 +356,8 @@ Plagiarisme akan berakibat:
     \item \textbf{Mulai lebih awal!} Jangan tunggu sampai deadline
     \item \textbf{Pahami baseline dulu} sebelum mencoba meningkatkannya
     \item \textbf{Dokumentasi sambil jalan} - tulis penjelasan markdown sambil coding
+    \item \textbf{Gunakan subset data (50\%-70\%)} untuk eksperimen awal - set \texttt{DATA\_PERCENTAGE}
     \item \textbf{Test dengan grid kecil dulu} - GridSearchCV bisa lama
-    \item \textbf{Gunakan RandomizedSearchCV} jika GridSearchCV terlalu lambat
     \item \textbf{Save pekerjaan secara berkala} - gunakan version control (git)
     \item \textbf{Cek error} - pastikan semua cell berjalan tanpa error
     \item \textbf{Tanya jika bingung} - gunakan office hours atau forum mata kuliah
@@ -352,28 +365,34 @@ Plagiarisme akan berakibat:
 
 \section{Contoh Parameter Grid}
 
-Berikut beberapa saran (Anda tidak harus menggunakan nilai-nilai ini):
+Berikut beberapa saran untuk GridSearchCV (Anda tidak harus menggunakan nilai-nilai ini):
 
-\subsection{Untuk GridSearchCV (Comprehensive)}
+\subsection{Untuk Eksperimen Awal (Grid Kecil - 3 Kombinasi)}
 \begin{verbatim}
 param_grid = {
-    'C': [0.1, 1, 10, 100],
-    'epsilon': [0.01, 0.1, 0.5],
-    'gamma': ['scale', 'auto', 0.001, 0.01, 0.1]
+    'C': [1, 10],
+    'epsilon': [0.1],
+    'gamma': ['scale', 'auto']
 }
-# Total: 4 × 3 × 5 = 60 kombinasi
+# Total: 2 × 1 × 2 = 4 kombinasi (cukup untuk test awal)
 \end{verbatim}
 
-\subsection{Untuk RandomizedSearchCV (Lebih Cepat)}
+\subsection{Untuk Eksperimen Komprehensif (Grid Sedang - 6 Kombinasi)}
 \begin{verbatim}
-param_distributions = {
-    'C': [0.01, 0.1, 1, 10, 100, 1000],
-    'epsilon': [0.001, 0.01, 0.1, 0.5, 1.0],
-    'gamma': ['scale', 'auto', 0.0001, 0.001, 0.01, 0.1, 1.0],
-    'kernel': ['linear', 'rbf', 'poly']
+param_grid = {
+    'C': [1, 10, 100],
+    'epsilon': [0.01, 0.1],
+    'gamma': ['scale', 'auto']
 }
-# Sample 50 kombinasi random
+# Total: 3 × 2 × 2 = 12 kombinasi (reasonable untuk final model)
 \end{verbatim}
+
+\textbf{Catatan:}
+\begin{itemize}
+    \item Gunakan \texttt{DATA\_PERCENTAGE = 0.5} atau \texttt{0.7} untuk grid yang lebih besar
+    \item Untuk model final, gunakan \texttt{DATA\_PERCENTAGE = 1.0} dengan best parameters
+    \item GridSearchCV dengan 3-fold CV akan training model 3 kali per kombinasi
+\end{itemize}
 
 \section{Formula Metrik Evaluasi}
 
@@ -413,7 +432,10 @@ A: Tidak, Anda harus menggunakan Medical Insurance Cost Dataset yang disediakan.
 A: Anda harus menyertakan preprocessing, tapi boleh reuse code dari materi hands-on dengan penjelasan yang proper.
 
 \textbf{Q: Berapa lama GridSearchCV akan berjalan?} \\
-A: Tergantung ukuran grid-mu. Mulai dengan grid kecil (10-20 kombinasi) untuk test. Grid penuh mungkin butuh 30-60 menit.
+A: Tergantung ukuran grid dan persentase data. Dengan \texttt{DATA\_PERCENTAGE = 0.5} dan grid 3-6 kombinasi, biasanya 5-15 menit. Mulai dengan grid kecil untuk test.
+
+\textbf{Q: Bolehkah saya menggunakan kurang dari 100\% data untuk model final?} \\
+A: Tidak, model final yang dilaporkan harus menggunakan 100\% data (\texttt{DATA\_PERCENTAGE = 1.0}). Subset data hanya untuk eksperimen awal.
 
 \textbf{Q: Bagaimana jika model tuned saya performanya lebih buruk dari baseline?} \\
 A: Dokumentasikan temuan ini! Jelaskan mengapa hal ini bisa terjadi dan apa yang Anda pelajari.
@@ -423,6 +445,9 @@ A: Ya! Pekerjaan ekstra yang berkualitas bisa mendapat bonus poin (maksimal +5).
 
 \textbf{Q: Bagaimana jika saya kerja kelompok tapi ingin kredit individual?} \\
 A: Kumpulkan terpisah. Setiap orang harus punya notebook sendiri dengan eksperimen sendiri.
+
+\textbf{Q: Berapa jumlah anggota kelompok yang diperbolehkan?} \\
+A: Maksimal 3 orang per kelompok. Semua anggota harus mencantumkan kontribusi masing-masing di bagian pendahuluan notebook.
 
 \textbf{Q: Bagaimana cara sitasi AI tools?} \\
 A: Tambahkan section di akhir: "AI Tools yang Digunakan: ChatGPT untuk saran code di Bagian X. Semua code sudah direview dan dipahami sebelum dimasukkan."
